@@ -30,4 +30,4 @@ table = TTY::Table.new ["id", "name", "price", "image_url", "description"], data
 
 # table = TTY::Table.new(products)
 
-puts table.render(:basic, reseize: true).center(screen_size)
+puts table.render(:basic, resize: true).center(screen_size)
