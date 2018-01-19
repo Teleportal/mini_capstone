@@ -7,3 +7,4 @@ end
 
 gem 'unirest'
 gem 'tty-table'
+gem 'paint'

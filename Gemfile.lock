@@ -6,6 +6,7 @@ GEM
     json (1.8.6)
     mime-types (1.25.1)
     necromancer (0.4.0)
+    paint (2.0.1)
     pastel (0.7.2)
       equatable (~> 0.5.0)
       tty-color (~> 0.4.0)
@@ -34,6 +35,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  paint
   tty-table
   unirest
 
