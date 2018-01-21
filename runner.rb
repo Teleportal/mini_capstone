@@ -4,9 +4,9 @@ require "paint"
 
 screen_size = 200
 
-puts "-" * screen_size
-puts "~*~*~*~*~*~ Welcome to my Very Nice™ Store ~*~*~*~*~*~".center(screen_size)
-puts "-" * screen_size
+puts Paint["-", :red] * screen_size
+puts Paint["~*~*~*~*~*~ Welcome to my Very Nice™ Store ~*~*~*~*~*~", :blue].center(screen_size)
+puts Paint["-", :red] * screen_size
 puts
 
 puts Paint["Options", :blue].center(screen_size)
@@ -23,18 +23,18 @@ if input_option == "1"
 
   products = response.body
 
-  puts Paint["Here are my products", :white]
+  puts Paint["~*~*~*~ Here are my products ~*~*~*~", :white].center(screen_size)
   puts 
   puts JSON.pretty_generate(products)
 
 elsif input_option == "2"
-  print Paint["Enter product id:", :yellow]
+  print Paint["Enter product id: ", :yellow]
   input_id = gets.chomp
 
   response = Unirest.get("http://localhost:3000/products/#{input_id}")
   product = response.body
 
-  puts Paint["Here is what you were looking for:", :white]
+  puts Paint["~*~*~*~ Here is what you were looking for ~*~*~*~", :white].center(screen_size)
   puts
   puts JSON.pretty_generate(product)
 elsif input_option == "3"
@@ -53,10 +53,11 @@ elsif input_option == "3"
                           parameters: client_params
                           )
   new_product = response.body
+  puts Paint["~*~*~*~ Here is the new product ~*~*~*~"].center(screen_size)
   puts JSON.pretty_generate(new_product)
 
 elsif input_option == "4"
-  puts Paint["Enter product id:" :yellow]
+  print Paint["Enter product id: ", :yellow]
   input_id = gets.chomp
 
   response = Unirest.get("http://localhost:3000/products/#{input_id}")
@@ -80,17 +81,20 @@ elsif input_option == "4"
                           )
   updated_product = response.body
 
+  puts JSON.pretty_generate(updated_product)
 
 elsif input_option == "5"
-  puts Paint["Enter product id:" :yellow]
+  print Paint["Enter product id: ", :yellow]
   input_id = gets.chomp
   
   response = Unirest.delete("http://localhost:3000/products/#{input_id}")
   data = response.body
-  puts data["message"]
+  puts Paint[data["message"], :red].center(screen_size)
 end
   
-  
+puts
+puts Paint["=", :red] * screen_size
+puts
 
 
 # puts
@@ -110,8 +114,8 @@ end
 #   data << row
 # end
 
-# table = TTY::Table.new ["id", "name", "price", "image_url", "description"], data
+# table = TTY::Table.new(["id", "name", "price", "image_url", "description"], data)
 
-# # table = TTY::Table.new(products)
+# table = TTY::Table.new(products)
 
 # puts table.render(:basic, resize: true).center(screen_size)
