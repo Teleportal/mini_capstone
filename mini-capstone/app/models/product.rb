@@ -1,7 +1,7 @@
 class Product < ApplicationRecord
 
   def discounted?
-    price < 16
+    price < 16.00
   end
 
   def tax
@@ -20,6 +20,7 @@ class Product < ApplicationRecord
     tax: tax,
     total: total,
     is_discounted: discounted?,
+    in_stock: in_stock,
     image_url: image_url,
     description: description
     }

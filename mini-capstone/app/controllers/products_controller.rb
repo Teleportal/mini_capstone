@@ -11,6 +11,7 @@ class ProductsController < ApplicationController
     product = Product.new(
                           name: params[:name],
                           price: params[:price],
+                          # in_stock: params[:in_stock],
                           image_url: params[:image_url],
                           description: params[:description]
                           )
@@ -22,6 +23,7 @@ class ProductsController < ApplicationController
 
     product.name = params[:name] || product.name
     product.price = params[:price] || product.price
+    # product.in_stock = params[:in_stock] || product.in_stock
     product.image_url = params[:image_url] || product.image_url
     product.description = params[:description] || product.description
     product.save
