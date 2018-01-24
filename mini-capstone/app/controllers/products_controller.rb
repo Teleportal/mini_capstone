@@ -15,8 +15,11 @@ class ProductsController < ApplicationController
                           image_url: params[:image_url],
                           description: params[:description]
                           )
-    product.save
-    render json: product.as_json
+    if product.save
+      render json: product.as_json
+    else
+      render json: {errors: product.errors.full_messages}, status: :unprocessable_untity
+    end
   end
   def update
     product = Product.find(params[:id])
@@ -26,9 +29,11 @@ class ProductsController < ApplicationController
     # product.in_stock = params[:in_stock] || product.in_stock
     product.image_url = params[:image_url] || product.image_url
     product.description = params[:description] || product.description
-    product.save
-
-    render json: product.as_json
+    if product.save
+      render json: product.as_json
+    else
+      render json: {message: product.errors.full_mesages}, status: :unprocessable_untity
+    end
   end
   def destroy
     product = Product.find(params[:id])

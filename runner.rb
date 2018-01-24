@@ -52,9 +52,16 @@ elsif input_option == "3"
   response = Unirest.post("http://localhost:3000/products",
                           parameters: client_params
                           )
-  new_product = response.body
-  puts Paint["~*~*~*~ Here is the new product ~*~*~*~"].center(screen_size)
-  puts JSON.pretty_generate(new_product)
+  if response.code == 200
+    new_product = response.body
+    puts Paint["~*~*~*~ Here is the new product ~*~*~*~"].center(screen_size)
+    puts JSON.pretty_generate(new_product)
+  else
+    errors = response.body["errors"]
+    errors.each do |error|
+      puts error
+    end
+  end
 
 elsif input_option == "4"
   print Paint["Enter product id: ", :yellow]
@@ -79,9 +86,17 @@ elsif input_option == "4"
   response = Unirest.patch("http://localhost:3000/products/#{input_id}",
                           parameters: client_params
                           )
+  if response.code == 200
   updated_product = response.body
 
   puts JSON.pretty_generate(updated_product)
+  
+  else
+    errors = response.body["errors"]
+    errors.each do |error|
+      puts error
+    end
+  end
 
 elsif input_option == "5"
   print Paint["Enter product id: ", :yellow]
