@@ -1,12 +1,27 @@
 class ProductsController < ApplicationController
   def index
+    search_term = params[:search]
+
     products = Product.all
+
+    if search_term
+      products = products.where("name iLike ?", "%#{search_term}%")
+    end
+
+    sort_attribute = params[:sort]
+
+    if sort_attribute
+      products = products.order(sort_attribute)
+    end
+
     render json: products.as_json
   end
+
   def show
     product = Product.find(params[:id])
     render json: product.as_json
   end
+
   def create
     product = Product.new(
                           name: params[:name],
@@ -21,6 +36,7 @@ class ProductsController < ApplicationController
       render json: {errors: product.errors.full_messages}, status: :unprocessable_untity
     end
   end
+
   def update
     product = Product.find(params[:id])
 
@@ -35,9 +51,11 @@ class ProductsController < ApplicationController
       render json: {message: product.errors.full_mesages}, status: :unprocessable_untity
     end
   end
+
   def destroy
     product = Product.find(params[:id])
     product.destroy
     render json: {message: "Successfully deleted item ##{product.id}"}
   end
+
 end

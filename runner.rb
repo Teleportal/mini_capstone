@@ -11,6 +11,8 @@ puts
 
 puts Paint["Options", :blue].center(screen_size)
 puts "[1] See all products".center(screen_size - 40)
+puts "  [1.1] Search by product name".center(screen_size - 40)
+puts "  [1.2] See all products ordered by price".center(screen_size - 40)
 puts "[2] See one product".center(screen_size - 40)
 puts "[3] Create a new product".center(screen_size - 40)
 puts "[4] Update a product".center(screen_size - 40)
@@ -27,6 +29,25 @@ if input_option == "1"
   puts 
   puts JSON.pretty_generate(products)
 
+elsif input_option == "1.1"
+  print "Enter a name to search by: "
+  search_term = gets.chomp
+
+  response = Unirest.get("http://localhost:3000/products?search=#{search_term}")
+  product = response.body
+
+  puts Paint["~*~*~*~ Here is what you were looking for ~*~*~*~", :white].center(screen_size)
+  puts
+  puts JSON.pretty_generate(product)  
+
+elsif input_option == "1.2"
+  response = Unirest.get("http://localhost:3000/products?sort=price")
+  product = response.body
+
+  puts Paint["~*~*~*~ Here is what you were looking for ~*~*~*~", :white].center(screen_size)
+  puts
+  puts JSON.pretty_generate(product)  
+  
 elsif input_option == "2"
   print Paint["Enter product id: ", :yellow]
   input_id = gets.chomp
