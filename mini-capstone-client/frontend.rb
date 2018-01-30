@@ -3,6 +3,7 @@ require "tty-table"
 require "paint"
 require_relative "controllers/products_controller"
 require_relative "models/product"
+require_relative "models/supplier"
 require_relative "views/products_views"
 
 class Frontend
@@ -21,7 +22,9 @@ class Frontend
     puts Paint["Options", :blue].center(@screen_size)
     puts "[1] See all products".center(@screen_size - 40)
     puts "  [1.1] Search by product name".center(@screen_size - 40)
-    puts "  [1.2] See all products sorted".center(@screen_size - 40)
+    puts "  [1.2] See all products sorted by price".center(@screen_size - 40)
+    puts "  [1.3] See all products sorted by name".center(@screen_size - 40)
+    puts "  [1.4] See all products sorted by description".center(@screen_size - 40)
     puts "[2] See one product".center(@screen_size - 40)
     puts "[3] Create a new product".center(@screen_size - 40)
     puts "[4] Update a product".center(@screen_size - 40)
@@ -33,27 +36,17 @@ class Frontend
       product_index_action
       
     elsif input_option == "1.1"
-      print "Enter a name to search by: "
-      search_term = gets.chomp
-
-      response = Unirest.get("http://localhost:3000/products?search=#{search_term}")
-      product = response.body
-
-      puts Paint["~*~*~*~ Here is what you were looking for ~*~*~*~", :white].center(@screen_size)
-      puts
-      puts JSON.pretty_generate(product)  
+      products_search_action
 
     elsif input_option == "1.2"
-      print "Enter what you would like to sort by: "
-      sort_term = gets.chomp
-
-      response = Unirest.get("http://localhost:3000/products?sort=#{sort_term}")
-      product = response.body
-
-      puts Paint["~*~*~*~ Here is what you were looking for ~*~*~*~", :white].center(@screen_size)
-      puts
-      puts JSON.pretty_generate(product)  
+      products_sort_action("price")
       
+    elsif input_option == "1.3"
+      products_sort_action("name")
+      
+    elsif input_option == "1.4"
+      products_sort_action("description")
+
     elsif input_option == "2"
       products_show_action
       
@@ -95,5 +88,22 @@ class Frontend
     # table = TTY::Table.new(products)
 
     # puts table.render(:basic, resize: true).center(@screen_size)
+  end
+
+private
+  def get_request(url, client_params={})
+    Unirest.get("http://localhost:3000#{url}", parameters: client_params).body
+  end
+
+  def post_request(url, client_params={})
+    response = Unirest.post("http://localhost:3000#{url}", parameters: client_params).body
+  end
+
+  def patch_request(url, client_params={})
+    Unirest.patch("http://localhost:3000#{url}", parameters: client_params).body
+  end
+
+  def delete_request(url, client_params={})
+    Unirest.delete("http://localhost:3000#{url}", parameters: client_params).body
   end
 end
