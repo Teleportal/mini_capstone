@@ -9,6 +9,7 @@ class Product < ApplicationRecord
 
   belongs_to :supplier
   has_many :images
+  has_many :orders
 
   def discounted?
     price < 16.00
@@ -21,19 +22,5 @@ class Product < ApplicationRecord
   def total
     price + tax
   end
-
-  # def as_json
-  #   {
-  #   id: id,
-  #   name: name,
-  #   price: price,
-  #   tax: tax,
-  #   total: total,
-  #   is_discounted: discounted?,
-  #   in_stock: in_stock,
-  #   image_url: image_url,
-  #   description: description
-  #   }
-  # end
 
 end

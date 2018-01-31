@@ -1,0 +1,1 @@
+json.partial! @images, partial: "image", as: :image

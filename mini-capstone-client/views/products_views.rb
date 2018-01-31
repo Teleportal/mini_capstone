@@ -5,6 +5,7 @@ module ProductsViews
     puts "#{product.name} - ID: #{product.id}"
     puts "Brought to you by #{product.supplier_name}"
     puts product.description
+    puts product.images
     puts
     puts product.formatted_price
     puts product.formatted_tax
@@ -19,6 +20,7 @@ module ProductsViews
       puts "#{product.name} - ID: #{product.id}"
       puts "Brought to you by #{product.supplier_name}"
       puts product.description
+      puts product.images
       puts
       puts product.formatted_price
       puts product.formatted_tax
@@ -44,8 +46,8 @@ module ProductsViews
     client_params[:name] = gets.chomp
     print Paint["Price: ", :yellow]
     client_params[:price] = gets.chomp
-    print Paint["Image URL: ", :yellow]
-    client_params[:image_url] = gets.chomp  
+    # print Paint["Image URL: ", :yellow]
+    # client_params[:images] = gets.chomp
     print Paint["Description: ", :yellow]
     client_params[:description] = gets.chomp
     print Paint["Supplier ID: ", :yellow]
@@ -61,8 +63,8 @@ module ProductsViews
     client_params[:name] = gets.chomp
     print Paint["Price (#{product.price}): ", :yellow]
     client_params[:price] = gets.chomp
-    print Paint["Image URL (#{product.image_url}): ", :yellow]
-    client_params[:image_url] = gets.chomp  
+    # print Paint["Image URL (#{product.image_url}): ", :yellow]
+    # client_params[:image_url] = gets.chomp  
     print Paint["Description (#{product.description}): ", :yellow]
     client_params[:description] = gets.chomp
     print Paint["Supplier ID (#{product.supplier_id}): ", :yellow]
@@ -81,6 +83,15 @@ module ProductsViews
   def products_search_form
     print "Enter a name to search by: "
     gets.chomp
+  end
+
+  def add_image_form
+    client_params = {}
+    print "What is the image's url:"
+    client_params[:url] = gets.chomp
+    print "what is the id of the product for this image:"
+    client_params[:product_id] = gets.chomp
+    client_params
   end
 
 end
