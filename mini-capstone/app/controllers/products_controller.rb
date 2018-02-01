@@ -1,4 +1,6 @@
 class ProductsController < ApplicationController
+  before_action :authenticate_admin, only: [:create, :update, :destroy]
+
   def index
     search_term = params[:search]
 
@@ -26,8 +28,6 @@ class ProductsController < ApplicationController
     @product = Product.new(
                           name: params[:name],
                           price: params[:price],
-                          # in_stock: params[:in_stock],
-                          image_url: params[:image_url],
                           description: params[:description],
                           supplier_id: params[:supplier_id]
                           )
@@ -43,9 +43,9 @@ class ProductsController < ApplicationController
 
     @product.name = params[:name] || @product.name
     @product.price = params[:price] || @product.price
-    # @product.in_stock = params[:in_stock] || @product.in_stock
-    @product.image_url = params[:image_url] || @product.image_url
     @product.description = params[:description] || @product.description
+    @product.supplier_id = params[:supplier_id] || @product.supplier_id
+
     if @product.save
       render 'show.json.jbuilder'
     else

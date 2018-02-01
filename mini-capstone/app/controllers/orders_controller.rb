@@ -1,24 +1,21 @@
 class OrdersController < ApplicationController
+  before_action :authenticate_user
+
 
   def index
-    @orders = Order.all.where(user_id: current_user.id)
+    @orders = current_user.orders
 
     render 'index.json.jbuilder'
   end
 
   def create
-    subtotal = Product.find(params[:product_id]).price * params[:quantity].to_i
-    tax = subtotal * 0.09
-    total = tax + subtotal
-
     @order = Order.new(
                       user_id: current_user.id,
                       product_id: params[:product_id],
-                      quantity: params[:quantity],
-                      subtotal: subtotal,
-                      tax: tax,
-                      total: total 
+                      quantity: params[:quantity] 
                       )
+
+    @order.calculate_totals
 
     if @order.save
       render 'show.json.jbuilder'

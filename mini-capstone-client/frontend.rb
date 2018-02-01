@@ -35,9 +35,11 @@ class Frontend
       puts "  [1.3] See all products sorted by name".center(@screen_size - 40)
       puts "  [1.4] See all products sorted by description".center(@screen_size - 40)
       puts "[2] See one product".center(@screen_size - 40)
-      puts "[3] Create a new product".center(@screen_size - 40)
-      puts "[4] Update a product".center(@screen_size - 40)
-      puts "[5] Destroy a product".center(@screen_size - 40)
+      # if 
+        puts "[3] Create a new product".center(@screen_size - 40)
+        puts "[4] Update a product".center(@screen_size - 40)
+        puts "[5] Destroy a product".center(@screen_size - 40)
+      # end
       
       puts "[signup] Create a new user".center(@screen_size - 40)
       puts "[login] Login (create a web token)".center(@screen_size - 40)
@@ -118,11 +120,23 @@ class Frontend
                                               quantity: amount
                                             }
                                 )
-        puts JSON.pretty_generate(response.body)
+
+        if response.code == 200
+          puts JSON.pretty_generate(response.body)
+        elsif response.code == 401
+          puts "Nope, try logging in first."
+        end
+          
 
       elsif input_option == "orders"
-        json_data = get_request("/orders")
-        puts JSON.pretty_generate(json_data)
+        response = Unirest.get("http://localhost:3000/orders")
+        # json_data = get_request("/orders")
+
+        if response.code == 200
+          puts JSON.pretty_generate(json_data)
+        elsif response.code == 401
+          puts "You don't have a list of orders until you log in."
+        end
 
       elsif input_option == "q"
         puts "Thank you for your usage."
