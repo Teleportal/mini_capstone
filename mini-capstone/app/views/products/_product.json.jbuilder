@@ -8,7 +8,12 @@ json.formatted do
                 json.tax number_to_currency(product.tax)
                 json.total number_to_currency(product.total)
 end
-json.images product.images
+json.images product.images.map { |image| image[:url] }
 json.description product.description
 json.is_discounted product.discounted?
-json.supplier product.supplier
+json.supplier do
+  json.name product.supplier[:name]
+  json.email product.supplier[:email]
+  json.phone product.supplier[:phone_number]
+end
+json.categories product.categories.map { |category| category[:name] }

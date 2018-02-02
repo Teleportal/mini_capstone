@@ -16,6 +16,11 @@ class ProductsController < ApplicationController
       @products = @products.order(sort_attribute)
     end
 
+    category_name = params[:category]
+    if category_name
+      @products = Category.find_by(name: category_name).products
+    end
+
     render 'index.json.jbuilder'
   end
 
