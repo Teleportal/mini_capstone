@@ -1,6 +1,11 @@
 json.id order.id
-json.quantity order.quantity
-json.product order.product
+json.carted_products order.carted_products.each do |carted_product|
+  json.id carted_product.id
+  json.user_id carted_product.user_id
+  json.status carted_product.status
+  json.product carted_product.status
+  json.quantity carted_product.quantity
+end
 json.subtotal order.subtotal
 json.tax order.tax
 json.total order.total

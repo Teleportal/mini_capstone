@@ -47,8 +47,10 @@ class Frontend
       puts "[logout] Logout (erase the web token)".center(@screen_size - 40)
 
       puts "[add] Add product to cart".center(@screen_size - 40)
+      puts "[cart] See your cart".center(@screen_size - 40)
+      puts "[remove] Remove an item from cart".center(@screen_size - 40)
 
-      puts "[order] Create an order".center(@screen_size - 40)
+      puts "[order] Create an order of products in your cart".center(@screen_size - 40)
       puts "[orders] See all orders".center(@screen_size - 40)
 
       puts "[q] Exit".center(@screen_size - 40)
@@ -145,33 +147,48 @@ class Frontend
           puts "Nope, try logging in first."
         end
 
-      elsif input_option == "order"
-        print "Product ID: "
-        product = gets.chomp
-        print "How many do you want: "
-        amount = gets.chomp
+      elsif input_option == "cart"
+        response = Unirest.get("http://localhost:3000/carted_products")
 
+        if response.code == 200
+          carted_products = response.body
+          carted_products.each do |carted_product_hash|
+            puts carted_product_hash["product"]
+            puts carted_product_hash["quantity"]
+          end
+        else
+          puts "Nope, try logging in first."
+        end
+
+      elsif input_option == "remove"
+
+        print "Enter carted product's id: "
+        input_id = gets.chomp
+
+        response = Unirest.delete("http://localhost:3000/carted_products/#{input_id}")
+        if response.code == 200
+          puts JSON.pretty_generate(response.body)
+        else
+          puts "Nope, try logging in first."
+        end
+
+      elsif input_option == "order"
         response = Unirest.post(
-                                "http://localhost:3000/orders",
-                                parameters: {
-                                              product_id: product,
-                                              quantity: amount
-                                            }
+                                "http://localhost:3000/orders"
                                 )
 
         if response.code == 200
           puts JSON.pretty_generate(response.body)
-        elsif response.code == 401
+        else
           puts "Nope, try logging in first."
         end
           
-
       elsif input_option == "orders"
         response = Unirest.get("http://localhost:3000/orders")
         # json_data = get_request("/orders")
 
         if response.code == 200
-          puts JSON.pretty_generate(json_data)
+          puts JSON.pretty_generate(response.body)
         elsif response.code == 401
           puts "You don't have a list of orders until you log in."
         end
