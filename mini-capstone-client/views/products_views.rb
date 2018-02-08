@@ -1,4 +1,4 @@
-module ProductsViews
+pmodule ProductsViews
   def products_show_view(product)
     puts Paint["~*~*~*~ Here is the product ~*~*~*~", :white].center(@screen_size)
     puts
