@@ -4,7 +4,10 @@
   <meta charset="UTF-8">
   <title>Mini-Capstone</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
   <link rel="stylesheet" href="products.css">
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script src="index.js" defer></script>
 </head>
 
 <body>
@@ -43,36 +46,17 @@
       <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
     </form>
   </div>
-</nav>
+  </nav>
   
   <div class="container">
     
     <h1>All products</h1>
 
-    <h2><a href="/products/1">Dungins & Dragons Shirt</a></h2>
-    <p>Supplier: Odd World</p>
-    <img src="https://media.boingboing.net/wp-content/uploads/2012/08/dundraggg.jpg" alt="Dungins and Dragons Shirt">
 
-    <p>Price: $18.00</p>
-    <p>Description: A shirt that combines the fun of D&D and the symbology of Dunkin Donuts</p>
-    <h3>Categories: Roleplaying Games, Nerdy, Pop Culture</h3>
+    <div class="card-deck">     
 
-    <h2><a href="/products/1">Dungins & Dragons Shirt</a></h2>
-    <p>Supplier: Odd World</p>
-    <img src="https://media.boingboing.net/wp-content/uploads/2012/08/dundraggg.jpg" alt="Dungins and Dragons Shirt">
-
-    <p>Price: $18.00</p>
-    <p>Description: A shirt that combines the fun of D&D and the symbology of Dunkin Donuts</p>
-    <h3>Categories: Roleplaying Games, Nerdy, Pop Culture</h3>
-    
-    <h2><a href="/products/1">Dungins & Dragons Shirt</a></h2>
-    <p>Supplier: Odd World</p>
-    <img src="https://media.boingboing.net/wp-content/uploads/2012/08/dundraggg.jpg" alt="Dungins and Dragons Shirt">
-
-    <p>Price: $18.00</p>
-    <p>Description: A shirt that combines the fun of D&D and the symbology of Dunkin Donuts</p>
-    <h3>Categories: Roleplaying Games, Nerdy, Pop Culture</h3>
-    
+        
+    </div>
   </div>
 
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
@@ -81,3 +65,20 @@
 </body>
 
 </html>
+
+
+<template id="product-card">
+  <div class="col-md-4">
+    <div class="card mb-5">
+      <img class="card-img-top" src="https://media.boingboing.net/wp-content/uploads/2012/08/dundraggg.jpg" alt="Dungins and Dragons Shirt">
+      <div class="card-body">
+        <h4 class="card-title"></h4>
+        <p class="card-text">Supplier: <span class="supplier"></span></p>
+
+        <p class="card-text">Price: <span class="price"></span></p>
+        <p class="card-text">Description: <span class="description"></span></p>
+        <p class="card-footer">Categories: <span class="categories"></span></h3>
+      </div>
+    </div>
+  </div> 
+</template>
