@@ -1,4 +1,4 @@
-class User
+[class User
   attr_accessor :name, :email, :password_digest
 
   def initialize(input_options)

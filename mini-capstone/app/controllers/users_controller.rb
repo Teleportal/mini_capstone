@@ -1,4 +1,4 @@
-pclass UsersController < ApplicationController
+class UsersController < ApplicationController
 
   def create
     user = User.new(
