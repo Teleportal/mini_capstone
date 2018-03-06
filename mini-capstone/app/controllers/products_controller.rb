@@ -39,7 +39,7 @@ class ProductsController < ApplicationController
     if @product.save
       render 'show.json.jbuilder'
     else
-      render json: {errors: @product.errors.full_messages}, status: :unprocessable_untity
+      render json: {errors: @product.errors.full_messages}, status: :unprocessable_entity
     end
   end
 
@@ -54,7 +54,7 @@ class ProductsController < ApplicationController
     if @product.save
       render 'show.json.jbuilder'
     else
-      render json: {message: @product.errors.full_mesages}, status: :unprocessable_untity
+      render json: {message: @product.errors.full_mesages}, status: :unprocessable_entity
     end
   end
 

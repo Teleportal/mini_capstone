@@ -17,7 +17,7 @@
   <div id="vue-app">
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-      <a class="navbar-brand" href="#">Mini-Capstone</a>
+      <a class="navbar-brand" href="/#/">Mini-Capstone</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -25,7 +25,7 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item active">
-          <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+          <a class="nav-link" href="/#/">Home <span class="sr-only">(current)</span></a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="/#/signup">Signup</a>
@@ -68,41 +68,143 @@
 
 </html>
 
+<!-- Products Templates -->
 
-<template id="product-card">
-  <div class="col-md-4">
-    <div class="card mb-5">
-      <img class="card-img-top" src="https://media.boingboing.net/wp-content/uploads/2012/08/dundraggg.jpg" alt="Dungins and Dragons Shirt">
-      <div class="card-body">
-        <h4 class="card-title"></h4>
-        <p class="card-text">Supplier: <span class="supplier"></span></p>
+<template id="products-index-page">
+  <div class="vue-component">
+    <div class="container">
+      <div class="row">
+        <div v-for="product in products" class="col-md-4">
+          <div class="card mb-5">
+            <img class="card-img-top" v-bind:src="product.images[0]" alt="Shirt Image">
+            <div class="card-body">
+              <h3 class="card-title">{{product.name}}</h3>
+              <p class="card-text">Supplier: {{product.supplier.name}}</p>
 
-        <p class="card-text">Price: <span class="price"></span></p>
-        <p class="card-text">Description: <span class="description"></span></p>
-        <p class="card-footer">Categories: <span class="categories"></span></h3>
+              <p class="card-text">Price: {{product.formatted.price}}</p>
+              <a v-bind:href="'/#/products/' + product.id" class="btn btn-dark">More info</a>
+            </div>
+          </div>
+        </div> 
       </div>
     </div>
-  </div> 
-</template>
-
-<template id="home-page">
-  <div class="vue-component">
-
-    <h1>{{ message }}</h1>
-    <a class="btn btn-warning" href="/#/sample">A sample page is here.</a>
 
   </div>
 </template>
 
-<template id="sample-page">
+<template id="product-new-page">
   <div class="vue-component">
 
-    <h1>{{ message }}</h1>
-
-    <a class="btn btn-danger" href="/#/">Back to my home page.</a>
+    <div class="container">
+      <h1>New Product</h1>
+      <ul>
+        <li class="text-danger" v-for="error in errors">{{ error }}</li>
+      </ul>
+      <div class="form-group">
+        <label>Name:</label>
+        <input type="text" class="form-control" v-model="name">
+      </div>
+      <div class="form-group">
+        <label>Price:</label>
+        <input type="text" class="form-control" v-model="price">
+      </div>
+      <div class="form-group">
+        <label>Description:</label>
+        <input type="text" class="form-control" v-model="description">
+      </div>
+      <div class="form-group">
+        <label>Supplier ID:</label>
+        <input type="text" class="form-control" v-model="supplierID">
+      </div>
+      <button class="btn btn-primary" v-on:click="submit()">Submit</button>
+    </div>
 
   </div>
 </template>
+
+<template id="product-show-page">
+  <div class="vue-component">
+    <div class="container">
+
+      <img class="card-img-top" v-bind:src="product.images[0]" alt="Shirt Image">
+
+      <h3 class="card-title">{{product.name}}</h3>
+      <p class="card-text">Supplier: {{product.supplier.name}}</p>
+
+      <p class="card-text">Price: {{product.formatted.price}}</p>
+      <p class="card-text">Description: {{product.description}}</p>
+      <h4>Categories</h4>
+      <ul>
+        <li v-for="category in product.categories">{{category}}</li>
+      </ul>
+      <a v-bind:href="'/#/products/' + product.id + '/edit'" class="btn btn-dark">Edit</a>
+      <a v-bind:href="'/#/products/' + product.id + '/delete'" class="btn btn-danger">Delete</a>
+    </div>
+
+  </div>
+</template>
+
+<template id="product-edit-page">
+  <div class="vue-component">
+
+    <div class="container">
+      <h1>Edit Product</h1>
+      <ul>
+        <li class="text-danger" v-for="error in errors">{{ error }}</li>
+      </ul>
+      <div class="form-group">
+        <label>Name:</label>
+        <input type="text" class="form-control" v-model="name">
+      </div>
+      <div class="form-group">
+        <label>Price:</label>
+        <input type="text" class="form-control" v-model="price">
+      </div>
+      <div class="form-group">
+        <label>Description:</label>
+        <input type="text" class="form-control" v-model="description">
+      </div>
+      <div class="form-group">
+        <label>Add Image URL:</label>
+        <input type="text" class="form-control" v-model="imageUrl">
+      </div>
+      <button class="btn btn-primary" v-on:click="submit()">Submit</button>
+    </div>
+
+  </div>
+</template>
+
+<!-- Shopping templates -->
+
+<template id="cart-index-page">
+  <div class="vue-component">
+    <div class="container">
+      <ul>
+        <li v-for="carted_product in carted_products">
+          {{carted_product.product.name}}
+          {{carted_product.quantity}}
+        </li>
+      </ul>
+    </div>
+
+  </div>
+</template>
+
+<template id="orders-index-page">
+  <div class="vue-component">
+    <div class="container">
+      <ul>
+        <li v-for="order in orders">
+          {{order.carted_products}}
+          {{order.quantity}}
+        </li>
+      </ul>
+    </div>
+
+  </div>
+</template>
+
+<!-- Authorization Templates -->
 
 <template id="signup-page">
   <div class="vue-component">
@@ -155,62 +257,4 @@
 
   </div>
 </template>
-<template id="product-new-page">
-  <div class="vue-component">
 
-    <div class="container">
-      <h1>New Product</h1>
-      <ul>
-        <li class="text-danger" v-for="error in errors">{{ error }}</li>
-      </ul>
-      <div class="form-group">
-        <label>Name:</label>
-        <input type="text" class="form-control" v-model="name">
-      </div>
-      <div class="form-group">
-        <label>Price:</label>
-        <input type="text" class="form-control" v-model="price">
-      </div>
-      <div class="form-group">
-        <label>Description:</label>
-        <input type="text" class="form-control" v-model="description">
-      </div>
-      <div class="form-group">
-        <label>Supplier ID:</label>
-        <input type="text" class="form-control" v-model="supplierID">
-      </div>
-      <button class="btn btn-primary" v-on:click="submit()">Submit</button>
-    </div>
-
-  </div>
-</template>
-
-<template id="product-edit-page">
-  <div class="vue-component">
-
-    <div class="container">
-      <h1>Edit Product</h1>
-      <ul>
-        <li class="text-danger" v-for="error in errors">{{ error }}</li>
-      </ul>
-      <div class="form-group">
-        <label>Name:</label>
-        <input type="text" class="form-control" v-model="name">
-      </div>
-      <div class="form-group">
-        <label>Price:</label>
-        <input type="text" class="form-control" v-model="price">
-      </div>
-      <div class="form-group">
-        <label>Description:</label>
-        <input type="text" class="form-control" v-model="description">
-      </div>
-      <div class="form-group">
-        <label>Supplier ID:</label>
-        <input type="text" class="form-control" v-model="supplierID">
-      </div>
-      <button class="btn btn-primary" v-on:click="submit()">Submit</button>
-    </div>
-
-  </div>
-</template>
